@@ -15,6 +15,7 @@ object Errors {
   case class InvalidNextTokenError(message: String, e: Throwable) extends ConfigraunError
   case class UnknownParamTypeError(message: String, e: Throwable) extends ConfigraunError
   case class ParamNotOfTypeError(message: String, e: Throwable) extends ConfigraunError
+  case class ParamNotExistError(message: String, e: Throwable) extends ConfigraunError
   case class ParameterVersionNotFoundError(message: String, e: Throwable) extends ConfigraunError
   case class FileDoesNotExist(message: String, e: Throwable) extends ConfigraunError
   case class ConfigException(message: String, e: Throwable) extends ConfigraunError

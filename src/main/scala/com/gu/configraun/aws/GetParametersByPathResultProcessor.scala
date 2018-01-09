@@ -1,5 +1,6 @@
 package com.gu.configraun.aws
 
+
 import com.amazonaws.services.simplesystemsmanagement.model.{GetParametersByPathResult, ParameterType}
 import com.gu.configraun.Errors.{ConfigraunError, UnknownParamTypeError}
 import com.gu.configraun.models.{ListParam, Param, StringParam}

@@ -16,6 +16,7 @@ pomExtra := (
       </developer>
     </developers>
   )
+
 publishArtifact in Test := false
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
 organization := "com.gu"
@@ -50,7 +51,7 @@ releaseProcess := Seq(
 resolvers += "Guardian GitHub Repository" at "http://guardian.github.io/maven/repo-releases"
 
 libraryDependencies ++= Seq(
-  "org.typelevel" %% "cats-core" % "1.0.0-RC1",
+  "org.typelevel" %% "cats-core" % "1.0.1",
   "com.amazonaws" % "aws-java-sdk-ssm" % "1.11.226"
 )
 
