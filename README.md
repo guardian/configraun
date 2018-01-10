@@ -32,7 +32,7 @@ You will then need to create a new instance of the client and set the key:
   val config = Configraun.loadConfig(stack, app, stage)
 ```
 
-Or, for an EC2 instance with appropriate IAM policies attached to the instance role:
+Or, for an EC2 instance with appropriate IAM policies (see below):
 
 ```scala
   implicit val client: AWSSimpleSystemsManagement = AWSSimpleSystemsManagementFactory(region, profile)
@@ -83,3 +83,12 @@ Keys can be created from the command line using the following:
 aws --region $region --profile $profile ssm put-parameter --name '/mystack/myapp/PROD/mydomain/mykey' --value 'myvalue' --type String
 ```
 
+## IAM Policies
+
+Instances will need to have Describe Tags permission in a policy in their instance role, or via some other form of credentials provider:
+
+```
+    "Effect": "Allow",
+    "Action": "ec2:DescribeTags",
+    "Resource": "*"
+```
