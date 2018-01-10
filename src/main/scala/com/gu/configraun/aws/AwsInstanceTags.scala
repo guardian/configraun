@@ -19,7 +19,7 @@ object AwsInstanceTags {
     case r:Region => Right(r)
     case _ => Left(ConfigException("Unable to find region", null))
   }
-  lazy val ec2Client: Option[AmazonEC2] = Some(AmazonEC2ClientBuilder.defaultClient())
+  lazy val ec2Client: Either[ConfigraunError, AmazonEC2] = Right(AmazonEC2ClientBuilder.defaultClient())
 
   private lazy val tags: Either[ConfigraunError, Map[String, String]] = for {
       theInstanceId <- instanceId

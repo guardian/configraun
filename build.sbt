@@ -52,7 +52,7 @@ resolvers += "Guardian GitHub Repository" at "http://guardian.github.io/maven/re
 
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.0.1",
-  "com.amazonaws" % "aws-java-sdk-ssm" % "1.11.226",
+  "com.amazonaws" % "aws-java-sdk-ssm" % "1.11.261",
   "com.amazonaws" % "aws-java-sdk-ec2" % "1.11.261"
 )
 

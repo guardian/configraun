@@ -11,11 +11,12 @@ object Configraun {
   def loadConfig(stack: String, app: String, stage: Stage)(implicit client: AWSSimpleSystemsManagement): Either[ConfigraunError, Configuration] = loadRemoteConfiguration(stack, app, stage)
   def loadConfig(stack: String, app: String, stage: String)(implicit client: AWSSimpleSystemsManagement): Either[ConfigraunError, Configuration] = loadRemoteConfiguration(stack, app, stage)
 
-  def loadConfig = for {
+  def loadConfig(implicit client: AWSSimpleSystemsManagement): Either[ConfigraunError, Configuration] = for {
     stack <- AwsInstanceTags("stack")
     app <- AwsInstanceTags("app")
     stage <- AwsInstanceTags("stage")
-  } yield loadConfig(stack, app, stage)
+    config <- loadConfig(stack, app, stage)
+  } yield config
 
   private def loadRemoteConfiguration(stack: String, app: String, stage: Stage)(implicit client: AWSSimpleSystemsManagement): Either[ConfigraunError, Configuration] = {
     loadRemoteConfiguration(stack, app, stage.name)
