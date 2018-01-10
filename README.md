@@ -2,9 +2,9 @@ Configraun
 ==========
 
 Configraun is a thin wrapper around AWS's [Systems Manager Parameter Store](https://aws.amazon.com/ec2/systems-manager/parameter-store/).
-Parameter store allows you to manage your configuration data in one place including plain data and secure data encrypted through AWS KMS. 
+Parameter store allows you to manage your configuration data in one place including plain data and secure data encrypted through AWS KMS.
 
-Using Parameter Store to store your applications configuration has a number of benefits: 
+Using Parameter Store to store your applications configuration has a number of benefits:
 
 1. You can control who and what resources access specific config through IAM credentials at a granular level.
 2. You can make use of AWS KMS to encrypt information and protect the security of your keys.
@@ -28,35 +28,58 @@ You will then need to create a new instance of the client and set the key:
   val stack: String = "STACK"
   val stage: Stage = Stage.PROD
   val app: String = "APP"
-  
+
   val config = Configraun.loadConfig(stack, app, stage)
-```  
+```
+
+Or, for an EC2 instance with appropriate IAM policies attached to the instance role:
+
+```scala
+  implicit val client: AWSSimpleSystemsManagement = AWSSimpleSystemsManagementFactory(region, profile)
+
+  val config = Configraun.loadConfig()
+```
+
 
 ## Usage
 
+Each of the get methods returns an `Either[ConfigraunError, T]`, designed to be traversed within
+a for comprehension.
+
 ```scala
-config.getAsString("/my/config/value")
+config.getAsString("/mydomain/mykey")
 
 ```
-or 
+or
 
 ```scala
-config.getAsList("/my/config/value")
+config.getAsList("/mydomain/mykey")
 
 ```
 
 ## Key Format
 
-Configraun expects that any parameters are keyed with a parameter hierarchy format. The hierarchy can have a maximum of 
+Configraun expects that any parameters are keyed with a parameter hierarchy format. The hierarchy can have a maximum of
 5 levels and must begin with /$stack/$app/$stage.
 
 ```
-/$stack/$app/$stage/domain/value
+/$stack/$app/$stage/key
+```
+or
+```
+/$stack/$app/$stage/domain/key
 ```
 
-e.g. 
+e.g.
 ```
 /content-api/porter/PROD/aws/region
 ```
 
+## Key Value Creation
+
+Keys can be created from the command line using the following:
+
+```bash
+aws --region $region --profile $profile ssm put-parameter --name '/mystack/myapp/PROD/mydomain/mykey' --value 'myvalue' --type String
+```
 
