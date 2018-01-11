@@ -10,12 +10,12 @@ import scala.collection.JavaConverters._
 
 object AwsInstanceTags {
 
-  lazy val instanceId = EC2MetadataUtils.getInstanceId match {
+  lazy val instanceId: Either[ConfigException, String] = EC2MetadataUtils.getInstanceId match {
     case instanceId: String => Right(instanceId)
     case _ => Left(ConfigException("Unable to find instance id", null))
   }
 
-  lazy val region = Regions.getCurrentRegion match {
+  lazy val region: Either[ConfigException, Region] = Regions.getCurrentRegion match {
     case region: Region => Right(region)
     case _ => Left(ConfigException("Unable to find region", null))
   }
@@ -31,11 +31,11 @@ object AwsInstanceTags {
     tagsResult.asScala.map{td => td.getKey -> td.getValue }.toMap
   }
 
-  def apply(tagName:String) = tags match {
+  def apply(tagName: String): Either[ConfigraunError, String] = tags match {
     case Left(a) => Left(a)
     case Right(b) => b.get(tagName) match {
       case Some(s) => Right(s)
-      case _ => Left(ConfigException(s"No tag '${tagName}' found in tags", null))
+      case _ => Left(ConfigException(s"No tag '$tagName' found in tags", null))
     }
   }
 

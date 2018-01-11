@@ -7,7 +7,7 @@ object Configuration {
 }
 
 case class Configuration(underlying: Map[String, Param]) {
-  def getAsString(key: String) = {
+  def getAsString(key: String): Either[ConfigraunError, String] = {
     underlying.get(key) match {
       case Some(StringParam(param)) => Right(param)
       case Some(ListParam(param)) => Left(ParamNotOfTypeError(s"Parameter with key $key is not of type String. Try calling .getAsList.", new UnsupportedOperationException))
@@ -15,7 +15,7 @@ case class Configuration(underlying: Map[String, Param]) {
       case Some(a) => Left(ParamNotOfTypeError(s"Parameter with key $key is not of type String. Type is ${a.getClass()}.", new UnsupportedOperationException))
     }
   }
-  def getAsList(key: String) = {
+  def getAsList(key: String): Either[ConfigraunError, Seq[String]] = {
     underlying.get(key) match {
       case Some(ListParam(param)) => Right(param)
       case Some(StringParam(param)) => Left(ParamNotOfTypeError(s"Parameter with key $key is not of type List[String]. Try calling .getAsString.", new UnsupportedOperationException))

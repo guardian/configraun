@@ -10,19 +10,19 @@ object Configraun {
 
   def loadConfig(implicit client: AWSSimpleSystemsManagement): Either[ConfigraunError, Configuration] = for {
     stackName <- AwsInstanceTags("stack")
-    stack = new Stack(stackName)
+    stack = Stack(stackName)
     appName <- AwsInstanceTags("app")
-    app = new App(appName)
+    app = App(appName)
     stageName <- AwsInstanceTags("stage")
     stage <- Stage.fromString(stageName) match {
       case Some(s) => Right(s)
-      case None => Left(ConfigException(s"No such Stage: ${stageName}", null))
+      case None => Left(ConfigException(s"No such Stage: $stageName", null))
     }
     identifier = Identifier(stack, app, stage)
     config <- loadConfig(identifier)
   } yield config
 
-  def loadConfig(identifier: Identifier)(implicit client: AWSSimpleSystemsManagement) = {
+  def loadConfig(identifier: Identifier)(implicit client: AWSSimpleSystemsManagement): Either[ConfigraunError, Configuration] = {
     val pathPrefix = s"/${identifier.stack.value}/${identifier.app.value}/${identifier.stage.name}"
     for {
       result <- ParameterStoreClient.getParametersByPath(pathPrefix, isRecursive = true, withEncryption = true)
