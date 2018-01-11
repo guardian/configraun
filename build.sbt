@@ -55,7 +55,9 @@ resolvers += "Guardian GitHub Repository" at "http://guardian.github.io/maven/re
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.0.1",
   "com.amazonaws" % "aws-java-sdk-ssm" % awsSdkVersion,
-"com.amazonaws" % "aws-java-sdk-ec2" % awsSdkVersion
+  "com.amazonaws" % "aws-java-sdk-ec2" % awsSdkVersion,
+  "org.scalacheck" %% "scalacheck" % "1.13.4" % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 )
 
 initialize := {

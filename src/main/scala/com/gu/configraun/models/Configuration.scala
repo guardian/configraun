@@ -2,6 +2,10 @@ package com.gu.configraun.models
 
 import com.gu.configraun.Errors.{ ConfigraunError, ParamNotOfTypeError, ParamNotExistError }
 
+object Configuration {
+  def empty = Configuration(Map[String, Param]())
+}
+
 case class Configuration(underlying: Map[String, Param]) {
   def getAsString(key: String) = {
     underlying.get(key) match {
@@ -20,4 +24,8 @@ case class Configuration(underlying: Map[String, Param]) {
 
     }
   }
+  def withString(key: String, value: String) = Configuration(underlying + ((key, StringParam(value))))
+
+  def withList(key: String, value: Seq[String]) = Configuration(underlying + ((key, ListParam(value))))
+
 }

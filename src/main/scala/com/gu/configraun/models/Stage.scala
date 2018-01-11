@@ -12,7 +12,7 @@ case object DEV extends Stage { def name: String = "DEV" }
 case object CODE extends Stage { def name: String = "CODE" }
 case object PROD extends Stage { def name: String = "PROD" }
 
-class Stack(val value: String) extends AnyVal
-class App(val value: String) extends AnyVal
+case class Stack(val value: String) extends AnyVal
+case class App(val value: String) extends AnyVal
 
 case class Identifier (stack: Stack, app: App, stage: Stage)
