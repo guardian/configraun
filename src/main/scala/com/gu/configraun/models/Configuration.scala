@@ -11,7 +11,9 @@ case class Configuration(underlying: Map[String, Param]) {
     underlying.get(key) match {
       case Some(StringParam(param)) => Right(param)
       case Some(ListParam(param)) => Left(ParamNotOfTypeError(s"Parameter with key $key is not of type String. Try calling .getAsList.", new UnsupportedOperationException))
-      case None => Left(ParamNotExistError(s"Parameter with key $key is not present.", new UnsupportedOperationException))
+      case None => Left(ParamNotExistError(s"Parameter with key $key is not present.\n" +
+        s"Consider adding with " +
+        s"ssm put-parameter --name '/mystack/myapp/PROD/$key' --value 'yourvalue' --type String", new UnsupportedOperationException))
       case Some(a) => Left(ParamNotOfTypeError(s"Parameter with key $key is not of type String. Type is ${a.getClass()}.", new UnsupportedOperationException))
     }
   }
@@ -19,7 +21,9 @@ case class Configuration(underlying: Map[String, Param]) {
     underlying.get(key) match {
       case Some(ListParam(param)) => Right(param)
       case Some(StringParam(param)) => Left(ParamNotOfTypeError(s"Parameter with key $key is not of type List[String]. Try calling .getAsString.", new UnsupportedOperationException))
-      case None => Left(ParamNotExistError(s"Parameter with key $key is not present.", new UnsupportedOperationException))
+      case None => Left(ParamNotExistError(s"Parameter with key $key is not present.\n" +
+        s"Consider adding with " +
+        s"ssm put-parameter --name '/mystack/myapp/PROD/$key' --value 'yourvalue' --type StringList", new UnsupportedOperationException))
       case Some(a) => Left(ParamNotOfTypeError(s"Parameter with key $key is not of type List[String]. Type is ${a.getClass}.", new UnsupportedOperationException))
 
     }
