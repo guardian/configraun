@@ -6,6 +6,8 @@ scalaVersion := "2.12.4"
 scalacOptions ++= Seq("-feature", "-deprecation", "-unchecked", "-target:jvm-1.8", "-Xfatal-warnings", "-Ypartial-unification")
 scalacOptions in doc in Compile := Nil
 
+val awsSdkVersion = "1.11.261"
+
 pomExtra := (
   <url>https://github.com/guardian/configraun</url>
     <developers>
@@ -52,7 +54,10 @@ resolvers += "Guardian GitHub Repository" at "http://guardian.github.io/maven/re
 
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.0.1",
-  "com.amazonaws" % "aws-java-sdk-ssm" % "1.11.226"
+  "com.amazonaws" % "aws-java-sdk-ssm" % awsSdkVersion,
+  "com.amazonaws" % "aws-java-sdk-ec2" % awsSdkVersion,
+  "org.scalacheck" %% "scalacheck" % "1.13.4" % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 )
 
 initialize := {
