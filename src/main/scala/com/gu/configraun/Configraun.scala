@@ -9,11 +9,11 @@ import com.gu.configraun.models._
 object Configraun {
 
   def loadConfig(implicit client: AWSSimpleSystemsManagement): Either[ConfigraunError, Configuration] = for {
-    stackName <- AwsInstanceTags("stack")
+    stackName <- AwsInstanceTags("Stack")
     stack = Stack(stackName)
-    appName <- AwsInstanceTags("app")
+    appName <- AwsInstanceTags("App")
     app = App(appName)
-    stageName <- AwsInstanceTags("stage")
+    stageName <- AwsInstanceTags("Stage")
     stage <- Stage.fromString(stageName) match {
       case Some(s) => Right(s)
       case None => Left(ConfigException(s"No such Stage: $stageName", null))
