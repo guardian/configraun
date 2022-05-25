@@ -50,7 +50,7 @@ releaseProcess := Seq(
   pushChanges
 )
 
-resolvers += "Guardian GitHub Repository" at "http://guardian.github.io/maven/repo-releases"
+resolvers += "Guardian GitHub Repository" at "https://guardian.github.io/maven/repo-releases"
 
 libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.0.1",
