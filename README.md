@@ -1,3 +1,6 @@
+> **Warning**
+> This library is deprecated and no longer maintained. [simple-configuration](https://github.com/guardian/simple-configuration) is an alternative.
+
 Configraun
 ==========
 
